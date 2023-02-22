@@ -1,0 +1,2 @@
+## Encoding
+The encoding is done starting by the top most CGC layer, by the top left block. Each complex block will be encoded with a complex secret block. For now, the end will be marked with white check block followed by black check block.

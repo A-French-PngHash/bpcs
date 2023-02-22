@@ -1,0 +1,28 @@
+# How it works
+
+ * Host (cover/carrier) image
+ * Secret data
+
+
+0 Initial parameters
+
+C0 : Complexity threshold
+
+
+
+I. Preparing host image 
+
+Divide host image data in 8 layers. (or 24 if image is not grayscale (rgb -> 8+8+8)).
+Divide each bit layer into blocks of 8x8 bits (called bit planes).
+
+
+II. Preparing secret data
+
+Divide the secret data into 8x8 bits. Those are called the secret blocks. Go over each secret block and calculate its complexity : the number of borders between black and white pixels in each 8x8 plane divided by the total number of borders.
+If a block complexity is lower than C0, conjugate the block (see Screens/conjugation.png). Store in a mapping table which blocks have been conjugated.
+
+
+III. Embedding 
+
+Then store 
+
