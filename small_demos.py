@@ -1,12 +1,13 @@
 from matplotlib import pyplot as plt
 
 from bitplane_Gen import generate8by8bitplane
-from classes.bitplane import Bitplane64
+from classes.bitplane.BitPlane64 import Bitplane64
 from classes.host_image import HostImage
 
 
 def girl256showlayernandsomeblocks(n : int):
-    host = HostImage("TestImage/girl256.png")
+    host = HostImage("TestImage/girl256.png", complexity_threshold=0.4)
+    print(host.writable_blocks_count)
     host.layers[n].show_whole_layer(show_plt=False)
     #for i in range(0):
         #host.layers[n].show_bloc(i, show_plt=False)

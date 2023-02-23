@@ -6,12 +6,12 @@ from matplotlib import pyplot as plt
 
 
 class HostImage:
-    side_length: int  # Side length of the host image
+    side_length: int  # Side length of the host image which is a square.
     layers: list[BitLayer]  # Decomposed CGS layers
     pixel_values: list[str]  # A list of binary values corresponding to the r=g=b value of the pixels.
-    writable_blocks_count : int = 0
+    writable_blocks_count: int = 0
 
-    def __init__(self, host_path : str, complexity_threshold : float):
+    def __init__(self, host_path: str, complexity_threshold: float):
         """
         :param host_path: Path to the host image. WARNING : The image must be a square and the side length in pixel must
          be a multiple of 8. It should also be black and white.
@@ -27,14 +27,32 @@ class HostImage:
             bitlayer = BitLayer(layer_data, complexity_threshold)
             self.writable_blocks_count += bitlayer.writable_blocks_count
             self.layers.append(bitlayer)
+            print(f"Layer {layer} done !")
 
-    def show_image(self):
+    def show_original_image(self):
         """
         Using matplotlib to show a graphical representation of the host image.
+
+        The data is taken from [pixel_values], therefore it is not up to date if the blocks were modified.
         :return:
         """
         imdata = [
             [[int(self.pixel_values[line * self.side_length + column], 2)] * 3 for column in range(self.side_length)]
             for line in range(self.side_length)]
+        plt.imshow(imdata)
+        plt.show()
+
+    def show_image(self):
+        layers = []
+        for layer in self.layers:
+            layers.append(list(layer.uptodate_layer_data))
+
+        final_data = ['']*len(layers[0])
+        for layer in layers:
+            final_data = list(map(lambda e : final_data[e] + layer[e], range(len(final_data))))
+        imdata = [
+            [[int(final_data[line * self.side_length + column], 2)] * 3 for column in range(self.side_length)]
+            for line in range(self.side_length)]
+
         plt.imshow(imdata)
         plt.show()

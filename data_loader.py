@@ -10,5 +10,5 @@ def load_file_as_binary(path) -> str:
         f = file.read()
 
         b = bytearray(f)
-        val = int.from_bytes(b, "little")
+        val = int.from_bytes(b, "big")
         return f"{val:b}"
