@@ -1,11 +1,11 @@
-import numpy
 from PIL import Image
 from classes.bit_layer import BitLayer
-import data_loader
 from matplotlib import pyplot as plt
 
+from classes.image.image_protocol import HostImage
 
-class HostImageBW:
+
+class HostImageBW(HostImage):
     """
     Black and white host image.
     """
@@ -15,7 +15,7 @@ class HostImageBW:
     pixel_values: list[str]  # A list of binary values corresponding to the r=g=b value of the pixels.
     writable_blocks_count: int = 0
 
-    def __init__(self, host_path: str, complexity_threshold: float, color_channel: int):
+    def __init__(self, host_path: str, complexity_threshold: float, color_channel: int = 0):
         """
         :param host_path: Path to the host image. WARNING : The image must be a square and the side length in pixel must
          be a multiple of 8. It should also be black and white.
@@ -40,6 +40,7 @@ class HostImageBW:
         Using matplotlib to show a graphical representation of the host image.
 
         The data is taken from [pixel_values], therefore it is not up to date if the blocks were modified.
+        :param show_plt:
         :return:
         """
         plt.figure()
@@ -81,3 +82,7 @@ class HostImageBW:
 
         plt.imshow(imdata)
         plt.show()
+
+    def writing_layers(self, bellow : int):
+        for layer_ind in range(8, bellow, -1):
+            yield self.layers[layer_ind]

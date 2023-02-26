@@ -19,15 +19,16 @@ class Bitplane64ConjugateBit(Bitplane64):
         self.conjugated = conjugated
         super().__init__((bitplane << 1) + (1 if conjugated else 0)) # Shifts the bitplane one to the right to add the conjugate bit.
 
+    """
     @property
     def complexity(self) -> float:
-        """
+        "
         Bit complexity of this bitplane.
 
         Warning : Computes the complexity by considering all the bits except the bottom right one.
         Iterates over each bytes and check if the border with it's top and right neighbour is a white-black border.
         :return:
-        """
+        "
 
         bwborders = 0  # black/white borders.
         for i in range(63):
@@ -43,7 +44,8 @@ class Bitplane64ConjugateBit(Bitplane64):
         bwbordermax = 7 * 7 * 2 + 7 + 7  # Chess patern.
         bwbordermax -= 2 # Removing the borders counting the conjugation byte.
         return bwborders / bwbordermax
-
+        -
+    """
 
     def conjugate(self):
         wcheck = int(("10"*4 + "01" * 4)*4, 2)
@@ -55,4 +57,4 @@ class Bitplane64ConjugateBit(Bitplane64):
         Similar as conjugate.
         :return:
         """
-        self.conjugate()
+        return self.conjugate()

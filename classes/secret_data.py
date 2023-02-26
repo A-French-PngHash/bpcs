@@ -23,12 +23,15 @@ class SecretData:
         :param bits: A binary string representing the data to store.
         :param complexityT: Complexity threshold.
         """
+        if complexityThreshold >= 0.5:
+            raise Exception("Can't have complexity more than 0.5")
         self.data_length = len(bits)
         self.number_of_blocks = (len(bits) // 63) + (0 if len(bits) % 63 == 0 else 1 )
 
         self.blocks = []
 
         print("Starting block separation for secret data.")
+        print("in : ",bits)
         for i in range(self.number_of_blocks - 1):
             block = Bitplane64ConjugateBit(int(bits[i*63:(63*i)+63], 2))
             if block.complexity < complexityThreshold:
@@ -47,3 +50,7 @@ class SecretData:
                 self.blocks.append(block)
 
         print("Block separation done.")
+
+    @property
+    def binary_data(self):
+        return "".join([block.bitstring[:63] for block in self.blocks])
